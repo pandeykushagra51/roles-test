@@ -20,6 +20,6 @@ export class UserModel extends Model<UserModel> {
   @Column({ allowNull: false, type: DataType.STRING })
   name: string;
 
-  @Column({ allowNull: false, type: DataType.NUMBER })
-  age: Number;
+  @Column({ allowNull: false, type: DataType.INTEGER })
+  age: number;
 }

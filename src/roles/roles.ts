@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { RoleModel } from "src/db/models/RoleModel";
 
 export enum PermissionCategory {
   FINANCE = "FINANCE",
@@ -41,6 +42,48 @@ export class Role {
     this.parent = inputs.parent;
   }
 
+  static fromModel(role: RoleModel): Role {
+    return new this(role);
+  }
+}
+
+export class User {
+  @ApiProperty()
+  id?: string;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  description: string;
+  @ApiProperty()
+  parent: string;
+  @ApiProperty()
+  createdBy: string;
+  @ApiProperty()
+  createdAt: Date;
+  @ApiProperty()
+  updatedAt: Date;
+
+  constructor(inputs: {
+    id?: string,
+    name?: string,
+    description?: string,
+    createdBy?: string,
+    createdAt?: Date,
+    updatedAt?: Date,
+    parent?: string,
+  }) {
+    this.id = inputs.id;
+    this.name = inputs.name;
+    this.createdBy = inputs.createdBy;
+    this.description = inputs.description;
+    this.createdAt = inputs.createdAt;
+    this.updatedAt = inputs.updatedAt;
+    this.parent = inputs.parent;
+  }
+
+  static fromModel(role: RoleModel): Role {
+    return new this(role);
+  }
 }
 
 export class Permission {
@@ -96,6 +139,41 @@ export class RolePermission {
     id?: string,
     roleId?: string,
     permissionId?: string,
+    roleName?: string,
+    permissionName?: string,
+    createdBy?: string,
+    createdAt?: Date,
+    updatedAt?: Date,
+  }) {
+    this.id = inputs.id;
+    this.roleId = inputs.roleId;
+    this.permissionId = inputs.permissionId;
+    this.createdAt = inputs.createdAt;
+    this.updatedAt = inputs.updatedAt;
+    this.createdBy = inputs.createdBy;
+  }
+}
+
+export class UserRole {
+  @ApiProperty()
+  id?: string;
+  @ApiProperty()
+  roleId: string;
+  @ApiProperty()
+  permissionId: string;
+  @ApiProperty()
+  createdBy: string;
+  @ApiProperty()
+  createdAt: Date;
+  @ApiProperty()
+  updatedAt: Date;
+
+  constructor(inputs: {
+    id?: string,
+    roleId?: string,
+    permissionId?: string,
+    roleName?: string,
+    permissionName?: string,
     createdBy?: string,
     createdAt?: Date,
     updatedAt?: Date,

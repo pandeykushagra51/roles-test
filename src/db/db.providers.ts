@@ -4,11 +4,14 @@ import { RoleModel } from "./models/RoleModel";
 import { PermissionModel } from "./models/PermissionModel";
 import { RolePermissionModel } from "./models/RolePermissionModel";
 import { UserRoleModel } from "./models/UserRoleModel";
-import { PERMISSION_DAO, ROLE_DAO, ROLE_PERMISSION_DAO, USER_DAO, USER_ROLE_DAO } from "src/constants";
+import { COMMUNICATION_TEMPLATE_DAO, COMMUNICATION_TEMPLATE_VARIABLE_DAO, PERMISSION_DAO, ROLE_DAO, ROLE_PERMISSION_DAO, SEQUELIZE, USER_DAO, USER_ROLE_DAO } from "src/constants";
+import { CommunicationTemplateModel } from "./models/CommunicationTemplateModel";
+import { CommunicationTemplateVariableModel } from "./models/communication_template_variable.model";
+import { CommunicationBannerVariableModel } from "./models/communication_banner_variable.model";
 
 export const dbProviders = [
     {
-        provide: 'SEQUELIZE',
+        provide: SEQUELIZE,
         useFactory: async () => {
             const dbName = process.env.DB_NAME as string;
             const dbUser = process.env.DB_USERNAME as string;
@@ -20,9 +23,11 @@ export const dbProviders = [
                 host: dbHost,
                 dialect: dbDriver,
                 port: dbPort,
-                // logging: (msg) => Logger.debug(msg),
+                logging: (msg) => {
+                    console.log(msg);
+                },
                 pool: {
-                    max: 5,
+                    max: 2,
                     min: 1,
                     acquire: 30000,
                     idle: 10000,
@@ -34,7 +39,11 @@ export const dbProviders = [
                 PermissionModel,
                 RolePermissionModel,
                 UserRoleModel,
+                CommunicationTemplateModel,
+                CommunicationTemplateVariableModel,
+                CommunicationBannerVariableModel,
             ])
+            sequelize.sync()
             return sequelize;
         }
     }
@@ -60,5 +69,17 @@ export const spacesProviders = [
     {
         provide: ROLE_PERMISSION_DAO,
         useValue: RolePermissionModel,
+    },
+    {
+        provide: COMMUNICATION_TEMPLATE_DAO,
+        useValue: CommunicationTemplateModel,
+    },
+    {
+        provide: COMMUNICATION_TEMPLATE_VARIABLE_DAO,
+        useValue: CommunicationTemplateVariableModel,
+    },
+    {
+        provide: COMMUNICATION_TEMPLATE_VARIABLE_DAO,
+        useValue: CommunicationBannerVariableModel,
     },
 ]

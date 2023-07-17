@@ -6,7 +6,13 @@ import { RoleModel } from './RoleModel';
 
 @Table({
   tableName: 'role_permission',
-  timestamps: true
+  timestamps: true,
+  indexes: [
+    {
+      unique: true,
+      fields: ['roleId', 'permissionId']
+    }
+  ],
 })
 export class RolePermissionModel extends Model<RolePermissionModel> {
   @Column({
@@ -24,4 +30,5 @@ export class RolePermissionModel extends Model<RolePermissionModel> {
   @ForeignKey(() => RoleModel)
   @Column({ allowNull: false, type: DataType.STRING })
   roleId: string
+
 }

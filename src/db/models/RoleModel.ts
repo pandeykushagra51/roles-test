@@ -15,11 +15,14 @@ export class RoleModel extends Model<RoleModel> {
   })
   id: string;
 
-  @Column({ allowNull: false, type: DataType.STRING })
+  @Column({ unique: true, allowNull: false, type: DataType.STRING })
   name: string;
 
   @Column({ allowNull: false, type: DataType.STRING })
   description: string;
+
+  @Column({ allowNull: true, type: DataType.STRING })
+  parentId: string;
 
   @ForeignKey(() => UserModel)
   @Column({ allowNull: false, type: DataType.STRING })

@@ -6,7 +6,7 @@ import {
     IsOptional,
     IsEnum
 } from 'class-validator';
-import { PermissionCategory } from './roles';
+import { Permission, PermissionCategory } from './roles';
 
 export class CreatePermissionDto {
 
@@ -46,8 +46,7 @@ export class CreateRoleDto {
     @ApiProperty()
     @IsOptional()
     @IsArray()
-    @IsString({ each: true })
-    permissions: string[];
+    permissions: Permission[];
 }
 
 export class GetPernissionsDto {
